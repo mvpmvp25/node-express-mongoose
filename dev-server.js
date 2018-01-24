@@ -1,8 +1,8 @@
-import db from './db';
-import router from './router';
+import db from './mongodb/db';
+import router from './router/router';
+import express from 'express';
+import bodyParser from 'body-parser';
 
-const express = require('express');
-const bodyParser = require("body-parser"); 
 const app = express();
 
 app.use(bodyParser.json());
@@ -19,7 +19,7 @@ app.all('*', function(req, res, next) {
 
 router(app);
  
-const server = app.listen(8052, "10.101.90.59", function () { // 本机IP
+const server = app.listen(8037, "10.101.90.59", function () { // 本机IP
   let host = server.address().address
   let port = server.address().port
   console.log("http://" + host + ":" + port + " ready");

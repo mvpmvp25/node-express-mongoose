@@ -1,8 +1,9 @@
 'use strict';
-import Component from './component';
-import { insert, modify, del, select } from './controller';
+import { DB } from '../../config';
+import Base from '../../common/base';
+import { insert, modify, del, select } from '../action';
 
-class Person extends Component {
+class User extends Base {
 	constructor(name, grade, skill) { //若不扩展Leader的构造函数，就可以将constructor这一步省去
 		super(name);
 		this.grade = grade;
@@ -27,13 +28,14 @@ class Person extends Component {
 		//				return
 		//			}
 		let _res;
+		
 		try {
 			_res = await insert({
 				username: req.body.userName, //用户账号
 				userpwd: req.body.userPwd, //密码
 				userage: req.body.userAge, //年龄
 				logindate: new Date() //最近登录时间
-			});
+			}, DB.TABLE.USER);
 		} catch(err) {
 			console.error("注册错误", err);
 			res.send({
@@ -53,9 +55,10 @@ class Person extends Component {
 				username: 1, // 1表示查询输出该字段，0表示不输出
 				userage: 1,
 				_id: 0
-			});
+			}, DB.TABLE.USER);
 		} catch(err) {
 			console.error("登陆错误", err);
+			console.log("DB", DB);
 			res.send({
 				name: "登陆失败",
 				message: "登陆失败",
@@ -71,7 +74,7 @@ class Person extends Component {
 				username: req.body.userName
 			}, {
 				userpwd: req.body.userPwd
-			});
+			}, DB.TABLE.USER);
 		} catch(err) {
 			console.error("更新错误", err);
 			res.send({
@@ -87,7 +90,7 @@ class Person extends Component {
 		try {
 			_res = await del({
 				username: req.body.userName
-			});
+			}, DB.TABLE.USER);
 		} catch(err) {
 			console.error("删除错误", err);
 			res.send({
@@ -100,8 +103,4 @@ class Person extends Component {
 	}
 }
 
-//var liyi = new Person('liyi', '研发经理', '精通各种技术');
-
-//liyi.run(); //'liyi职位：研发经理 技能：精通各种技术'
-
-export default new Person();
+export default new User();

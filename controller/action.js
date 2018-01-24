@@ -1,41 +1,55 @@
-import User from './user';
+import { DB } from '../config';
+import UserModel from '../mongodb/member/user';
 
 // 增加
-export const insert = _data => {
-	let user = new User(_data);
-	return user.save();
+export const insert = (_data, tableName) => {
+	let table;
+	switch(tableName) {
+		case DB.TABLE.USER:
+			table = new UserModel(_data);
+			break;
+		default:
+			break;
+
+	}
+	return table.save();
 }
 
 // 查询
-export const select = (_whereData, _option) => {
-	return User.find(_whereData, _option);
+export const select = (_keyData, _option, tableName) => {
+	switch(tableName) {
+		case DB.TABLE.USER:
+			return UserModel.find(_keyData, _option);
+			break;
+		default:
+			break;
+	}
 }
 
 // 更新
-export const modify = (_whereData, _updateData) => {
-	return User.update(_whereData, _updateData, {
-		multi: true // multi为true时更新多条，为false时更新一条
-	});
+export const modify = (_keyData, _updateData, tableName) => {
+	switch(tableName) {
+		case DB.TABLE.USER:
+			return UserModel.update(_keyData, _updateData, {
+				multi: true // multi为true时更新多条，为false时更新一条
+			});
+			break;
+		default:
+			break;
+	}
 }
 
 // 删除
-export const del = _whereData => {
-	return User.remove(_whereData);
+export const del = (_keyData, tableName) => {
+	switch(tableName) {
+		case DB.TABLE.USER:
+			return UserModel.remove(_keyData);
+			break;
+		default:
+			break;
+	}
 }
 
-//class controller {
-//	constructor() {
-//
-//	}
-//	async insert(_data) {
-//		let user = new User(_data);
-//		let res = await user.save();
-//		//console.log(res);
-//		return res;
-//	}
-//}
-//
-//export default new controller();
 
 // 增加
 //export const insert = function(_data) {
