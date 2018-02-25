@@ -1,5 +1,5 @@
 import db from './mongodb/db';
-import router from './router/router';
+import Router from './router/router';
 import express from 'express';
 import bodyParser from 'body-parser';
 
@@ -17,7 +17,7 @@ app.all('*', function(req, res, next) {
     next();
 });
 
-router(app);
+Router(app);
  
 const server = app.listen(8037, "10.101.90.59", function () { // 本机IP
   let host = server.address().address
